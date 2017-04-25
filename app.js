@@ -118,9 +118,11 @@ app.onMessageArrived = function(message) {
 	//app.ctx.lineTo(o.to.x, o.to.y);
 	//app.ctx.strokeStyle = o.color;
 	//app.ctx.stroke();
-	document.getElementById("text").innerHTML += "From " + o.user +" : "+ o.message + "<br>";
-	document.getElementById("text").color = o.color;
-	prompt();
+
+	document.getElementById("text").innerHTML += "<div style='color:"+o.color+"'>" + "From "  + o.user +" : "+ o.message + "<br></div>";
+	
+	//document.getElementById("text").color = o.color;
+	//prompt();
 }
 
 app.onConnect = function(context) {
@@ -146,9 +148,10 @@ app.status = function(s) {
 }
 
 myFunc = function() {
-	var text = getElementById("text").innerHTML();
-	var msg = JSON.stringify({user: user, message: text;, color: app.color})
-			app.publish(msg);
+	var text = document.getElementById("input");
+	//var text = "AHA";
+	var msg = JSON.stringify({user: user, message: text.value, color: app.color})
+	app.publish(msg);
 }
 
 app.initialize();
