@@ -1,2 +1,7 @@
-# Lab4
-Lab 4 Mobilutveckling KTH
+Evothings example using an MQTT server, for example VerneMQ
+or EMQTT, running on the public internet. See article:
+
+https://evothings.com/evothings-does-mqtt-with-vernemq-or-emqtt
+
+Open your Evothings Studio and drag the evothings.json file
+onto the "My Apps" tab. Then just run the app.
