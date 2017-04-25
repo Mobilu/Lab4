@@ -118,7 +118,7 @@ app.onMessageArrived = function(message) {
 	//app.ctx.lineTo(o.to.x, o.to.y);
 	//app.ctx.strokeStyle = o.color;
 	//app.ctx.stroke();
-	document.getElementById("text").innerHTML += o.message;
+	document.getElementById("text").innerHTML += "From " + o.user +" : "+ o.message + "<br>";
 	document.getElementById("text").color = o.color;
 }
 
