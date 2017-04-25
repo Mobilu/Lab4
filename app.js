@@ -113,11 +113,13 @@ app.unsubscribe = function() {
 
 app.onMessageArrived = function(message) {
 	var o = JSON.parse(message.payloadString);
-	app.ctx.beginPath();
-	app.ctx.moveTo(o.from.x, o.from.y);
-	app.ctx.lineTo(o.to.x, o.to.y);
-	app.ctx.strokeStyle = o.color;
-	app.ctx.stroke();
+	//app.ctx.beginPath();
+	//app.ctx.moveTo(o.from.x, o.from.y);
+	//app.ctx.lineTo(o.to.x, o.to.y);
+	//app.ctx.strokeStyle = o.color;
+	//app.ctx.stroke();
+	document.getElementById("text").innerHTML += o.message;
+	document.getElementById("text").color = o.color;
 }
 
 app.onConnect = function(context) {
@@ -140,6 +142,11 @@ app.status = function(s) {
 	console.log(s);
 	var info = document.getElementById("info");
 	info.innerHTML = s;
+}
+
+myFunc = function() {
+	var msg = JSON.stringify({user: user, message: "Clicked", color: app.color})
+			app.publish(msg);
 }
 
 app.initialize();
