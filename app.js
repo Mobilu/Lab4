@@ -120,6 +120,7 @@ app.onMessageArrived = function(message) {
 	//app.ctx.stroke();
 	document.getElementById("text").innerHTML += "From " + o.user +" : "+ o.message + "<br>";
 	document.getElementById("text").color = o.color;
+	prompt();
 }
 
 app.onConnect = function(context) {
@@ -145,7 +146,8 @@ app.status = function(s) {
 }
 
 myFunc = function() {
-	var msg = JSON.stringify({user: user, message: "Clicked", color: app.color})
+	var text = getElementById("text").innerHTML();
+	var msg = JSON.stringify({user: user, message: text;, color: app.color})
 			app.publish(msg);
 }
 
