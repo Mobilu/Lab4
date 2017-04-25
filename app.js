@@ -154,4 +154,8 @@ myFunc = function() {
 	app.publish(msg);
 }
 
+myClearFunc = function() {
+	document.getElementById("text").innerHTML = "";
+}
+
 app.initialize();
