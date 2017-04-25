@@ -32,8 +32,8 @@ app.initialize = function() {
 app.onReady = function() {
 	if (!app.ready) {
 		app.color = app.generateColor(device.uuid); // Generate our own color from UUID
-		app.pubTopic = '/paint/' + device.uuid + '/evt'; // We publish to our own device topic
-		app.subTopic = '/paint/+/evt'; // We subscribe to all devices using "+" wildcard
+		app.pubTopic = '/mobilu/' + device.uuid + '/evt'; // We publish to our own device topic
+		app.subTopic = '/mobilu/+/evt'; // We subscribe to all devices using "+" wildcard
 		app.setupCanvas();
 		app.setupConnection();
 		app.ready = true;
@@ -149,6 +149,8 @@ app.status = function(s) {
 
 myFunc = function() {
 	var text = document.getElementById("input");
+	var username = document.getElementById("username");
+	user = username.value;
 	//var text = "AHA";
 	var msg = JSON.stringify({user: user, message: text.value, color: app.color})
 	app.publish(msg);
@@ -156,6 +158,11 @@ myFunc = function() {
 
 myClearFunc = function() {
 	document.getElementById("text").innerHTML = "";
+}
+
+setUsername = function(){
+	var newuser = document.getElementById("username");
+	user = newuser.value;
 }
 
 app.initialize();
