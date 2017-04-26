@@ -6,7 +6,7 @@
 var app = {};
 if (device == null) {
 	var device = {};
-	device.uuid = "b8cbdd246e67386e";
+	device.uuid = "a8cbdd246e67386e";
 }
 
 var host = 'vernemq.evothings.com';
@@ -36,8 +36,8 @@ app.initialize = function() {
 app.onReady = function() {
 	if (!app.ready) {
 		app.color = app.generateColor(device.uuid); // Generate our own color from UUID
-		app.pubTopic = '/mobilu/' + device.uuid + '/evt'; // We publish to our own device topic
-		app.subTopic = '/mobilu/+/evt'; // We subscribe to all devices using "+" wildcard
+		app.pubTopic = '/paint/' + device.uuid + '/evt'; // We publish to our own device topic
+		app.subTopic = '/paint/+/evt'; // We subscribe to all devices using "+" wildcard
 		app.setupConnection();
 		app.ready = true;
 	}
@@ -48,17 +48,11 @@ app.setupConnection = function() {
 	app.client = new Paho.MQTT.Client(host, port, device.uuid);
 	app.client.onConnectionLost = app.onConnectionLost;
 	app.client.onMessageArrived = app.onMessageArrived;
-
-	//var lwt = new Paho.MQTT.Message("Hello from the other side!");
-	//lwt.destinationName = app.appTopic;
-	//lwt.qos = 0;
-	//lwt.retained = false;
-
 	var options = {
     useSSL: true,
     onSuccess: app.onConnect,
-    onFailure: app.onConnectFailure,
-  };
+    onFailure: app.onConnectFailure
+  }
 	app.client.connect(options);
 }
 
@@ -105,22 +99,42 @@ app.status = function(s) {
 	info.innerHTML = s;
 }
 
-myFunc = function() {
-	var text = document.getElementById("input");
+myFunc = function(type) {
+	var text = "";
+	if (type == "text") {
+		text = document.getElementById("input");
+	}
+	else if (type == "emoji") {
+		text = {};
+		text.value = '<i class="fa fa-thumbs-up" aria-hidden="true"></i>';
+	}
+	
 	var username = document.getElementById("username");
 	user = username.value;
+	if (text.value =="") {
+		text.value = prompt("Please write a message:");
+	}
+	if (user == "") {
+		user = prompt("Please set a username:");
+		document.getElementById("username").value = user;
+	}
 	//var text = "AHA";
-	var msg = JSON.stringify({user: device.uuid, message: text.value, color: app.color})
+	var msg = JSON.stringify({user: user, message: text.value, color: app.color})
 	app.publish(msg);
+	document.getElementById("input").value = "";
 }
 
 myClearFunc = function() {
-	document.getElementById("text").innerHTML = "";
+		document.getElementById("text").innerHTML = "";
+		document.getElementById("input").value = "";
 }
 
-setUsername = function(){
-	var newuser = document.getElementById("username");
-	user = newuser.value;
+clearText = function() {
+	document.getElementById("input").value = "";
+}
+
+clearUser = function(){
+	document.getElementById("username").value = "";
 }
 
 app.initialize();

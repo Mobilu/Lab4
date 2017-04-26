@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no
 		initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<title>EMQTT Painter</title>
 
 	<style>
@@ -32,7 +32,7 @@
 	if (window.hyper && window.hyper.log) { console.log = hyper.log }
 	</script>
 
-	<!--<script src="cordova.js"></script>-->
+	<script src="cordova.js"></script>
 	<script src="app.js"></script>
 
 </head>
@@ -55,19 +55,19 @@
 	<!--<div class="dummy"></div>
 	<div class="canvas-container"><canvas id="canvas" style="margin: 0px;"></canvas></div>-->
 	<h5>Username: </h5>
-	<input type="text" id="username"></input><br>
-	<button onclick="myFunc()">Submit</button> 
+	<input type="text" id="username" value="Anonymous" onclick="clearUser()"></input><br>
+	<button onclick="myFunc('text')">Submit</button> 
 	<button onclick="myClearFunc()">Clear</button>
+	<button onclick="myFunc('emoji')"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
 	<br>
-	<input type="text" id="input"></input>
+	<input type="text" id="input" value="Hello" onclick="clearText()"></input>
 	<div id="text"></div>
 	<script>
 		// Make the canvas fill the part of the screen that's not taken up by other elements.
-		console.log("loading...");
 		window.blockMenuHeaderScroll = true;
 		document.body.style.overflow = "hidden";
 	</script>
 
 	<script src="libs/mqttws/mqttws.js"></script>
-	</body>
+</body>
 </html>
