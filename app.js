@@ -36,8 +36,8 @@ app.initialize = function() {
 app.onReady = function() {
 	if (!app.ready) {
 		app.color = app.generateColor(device.uuid); // Generate our own color from UUID
-		app.pubTopic = '/paint/' + device.uuid + '/evt'; // We publish to our own device topic
-		app.subTopic = '/paint/+/evt'; // We subscribe to all devices using "+" wildcard
+		app.pubTopic = '/mobilu12/' + device.uuid + '/evt'; // We publish to our own device topic
+		app.subTopic = '/mobilu12/+/evt'; // We subscribe to all devices using "+" wildcard
 		app.setupConnection();
 		app.ready = true;
 	}
@@ -48,10 +48,17 @@ app.setupConnection = function() {
 	app.client = new Paho.MQTT.Client(host, port, device.uuid);
 	app.client.onConnectionLost = app.onConnectionLost;
 	app.client.onMessageArrived = app.onMessageArrived;
+
+	var lwt = new Paho.MQTT.Message(JSON.stringify({user: user, message: "YAAS", color: app.color, uuid: device.uuid}));
+	lwt.destinationName=app.pubTopic;
+	lwt.qos = 0;
+	lwt.retained = false;
+
 	var options = {
     useSSL: true,
     onSuccess: app.onConnect,
-    onFailure: app.onConnectFailure
+    onFailure: app.onConnectFailure,
+    willMessage: lwt
   }
 	app.client.connect(options);
 }
@@ -74,6 +81,9 @@ app.unsubscribe = function() {
 
 app.onMessageArrived = function(message) {
 	var o = JSON.parse(message.payloadString);
+	if (o.uuid == device.uuid) {
+		o.user = "You";
+	}
 	document.getElementById("text").innerHTML += "<div style='color:"+o.color+"'>" + "From "  + o.user +" : "+ o.message + "<br></div>";
 }
 
@@ -119,7 +129,7 @@ myFunc = function(type) {
 		document.getElementById("username").value = user;
 	}
 	//var text = "AHA";
-	var msg = JSON.stringify({user: user, message: text.value, color: app.color})
+	var msg = JSON.stringify({user: user, message: text.value, color: app.color, uuid: device.uuid})
 	app.publish(msg);
 	document.getElementById("input").value = "";
 }
